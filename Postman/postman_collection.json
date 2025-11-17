@@ -1,0 +1,1314 @@
+{
+	"info": {
+		"_postman_id": "0bfc2908-dcc6-4039-a88e-e1680f900665",
+		"name": "NovaStore",
+		"description": "**Description:**  \nNovaStore is a professional e-commerce platform for selling **gold and jewelry** online. Built with **Node.js**, **Express**, and **MongoDB**, it provides a complete backend solution for managing products, users, orders, categories, payments, and customer comments — designed with real-world standards in mind.\n\n**Goal:**\n\nNovaStore is designed as a **realistic, professional jewelry e-commerce backend**, suitable for portfolio presentation and demonstrating practical Node.js skills.\n\nTech Stack: Node.js, Express.js, MongoDB (Mongoose), JWT Authentication, RESTful API, tested with Postman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47864900",
+		"_collection_link": "https://iranamos.postman.co/workspace/iran-amos's-Workspace~67302699-a871-41d8-85c7-181dd4077ddb/collection/47864900-0bfc2908-dcc6-4039-a88e-e1680f900665?action=share&source=collection_link&creator=47864900"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "banUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDcxNjAxYjA1M2M3ZjAyYTIzYTY2ZSIsImlhdCI6MTc2MjA3MjA2NSwiZXhwIjoxNzY0NjY0MDY1fQ.f6dZreNIje8v9ADuQnE8rMrYHpmUE8WGdoHu31BFrfc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7000/api/v1/users/ban/69071629b740e824fe36774d",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"ban",
+								"69071629b740e824fe36774d"
+							]
+						},
+						"description": "This API is for banning the desired user.\n\nNote: Only admins can Ban them."
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDcxNjAxYjA1M2M3ZjAyYTIzYTY2ZSIsImlhdCI6MTc2MjA3MjA2NSwiZXhwIjoxNzY0NjY0MDY1fQ.f6dZreNIje8v9ADuQnE8rMrYHpmUE8WGdoHu31BFrfc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7000/api/v1/users/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								""
+							]
+						},
+						"description": "This role shows us all the users, all the users we have in the database.\n\nNote: Only administrators can get a list of all users."
+					},
+					"response": []
+				},
+				{
+					"name": "Get a user's information",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDcxNjAxYjA1M2M3ZjAyYTIzYTY2ZSIsImlhdCI6MTc2MjA3MjA2NSwiZXhwIjoxNzY0NjY0MDY1fQ.f6dZreNIje8v9ADuQnE8rMrYHpmUE8WGdoHu31BFrfc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7000/api/v1/users/690f1cf5519194c2796d3265",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"690f1cf5519194c2796d3265"
+							]
+						},
+						"description": "This roll returns the information of a given user .\n\nNote: Only administrators can receive the desired user information."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDcxNjAxYjA1M2M3ZjAyYTIzYTY2ZSIsImlhdCI6MTc2MjA3MjA2NSwiZXhwIjoxNzY0NjY0MDY1fQ.f6dZreNIje8v9ADuQnE8rMrYHpmUE8WGdoHu31BFrfc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7000/api/v1/users/68f759ec4575aad5f8f79fd3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"68f759ec4575aad5f8f79fd3"
+							]
+						},
+						"description": "As the name suggests, this role deletes the user using their ID\n\n. Note: Only admins can delete them."
+					},
+					"response": []
+				},
+				{
+					"name": "changeRole Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDcxNjAxYjA1M2M3ZjAyYTIzYTY2ZSIsImlhdCI6MTc2MjA3MjA2NSwiZXhwIjoxNzY0NjY0MDY1fQ.f6dZreNIje8v9ADuQnE8rMrYHpmUE8WGdoHu31BFrfc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7000/api/v1/users/role/69071629b740e824fe36774d",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"role",
+								"69071629b740e824fe36774d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user information",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDcxNjAxYjA1M2M3ZjAyYTIzYTY2ZSIsImlhdCI6MTc2MjA3MjA2NSwiZXhwIjoxNzY0NjY0MDY1fQ.f6dZreNIje8v9ADuQnE8rMrYHpmUE8WGdoHu31BFrfc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"reza mirelmi\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7000/api/v1/users/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints for managing user data.  \nAdmins can view, update, or delete users; normal users can view or update their own profiles."
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "RegisterUser",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Mehrad Hayden\",\r\n    \"email\": \"MehradHayden@gmail.com\",\r\n    \"phone\": \"09121231370\",\r\n    \"password\": \"Mehrad!1234\",\r\n    \"passwordReset\": \"Mehrad!1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7000/api/v1/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LoginUser",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"identifier\": \"09121231370\",\r\n    \"password\": \"Mehrad!1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7000/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDcxNjAxYjA1M2M3ZjAyYTIzYTY2ZSIsImlhdCI6MTc2MjA3MjA2NSwiZXhwIjoxNzY0NjY0MDY1fQ.f6dZreNIje8v9ADuQnE8rMrYHpmUE8WGdoHu31BFrfc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7000/api/v1/auth/me",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"me"
+							],
+							"query": [
+								{
+									"key": "inStock",
+									"value": "false",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "Make an order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MGYxZGUxNTE5MTk0YzI3OTZkMzI2YSIsImlhdCI6MTc2MjU5ODQ5NiwiZXhwIjoxNzY1MTkwNDk2fQ.dEUaPXp_NU2V5i4ZTjbHUcGs4ITvrZHTXYFhbSrMXDg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productId\" : \"6911e9573edc3408595eda9c\",\r\n    \"quantity\" : 2,\r\n    \"address\" : \"Emirate of Dubai, Sheikh Mohammed Bin Rashid Street, Al Satwa Alley\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7000/api/v1/orders/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MGYxZGUxNTE5MTk0YzI3OTZkMzI2YSIsImlhdCI6MTc2MjU5ODQ5NiwiZXhwIjoxNzY1MTkwNDk2fQ.dEUaPXp_NU2V5i4ZTjbHUcGs4ITvrZHTXYFhbSrMXDg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7000/api/v1/orders/my",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								"my"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Receive all orders",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDcxNjAxYjA1M2M3ZjAyYTIzYTY2ZSIsImlhdCI6MTc2MjA3MjA2NSwiZXhwIjoxNzY0NjY0MDY1fQ.f6dZreNIje8v9ADuQnE8rMrYHpmUE8WGdoHu31BFrfc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7000/api/v1/orders/admin/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								"admin",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User order details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDcxNjAxYjA1M2M3ZjAyYTIzYTY2ZSIsImlhdCI6MTc2MjA3MjA2NSwiZXhwIjoxNzY0NjY0MDY1fQ.f6dZreNIje8v9ADuQnE8rMrYHpmUE8WGdoHu31BFrfc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7000/api/v1/orders/admin/690cae4b4b3e8dc8d205d421",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								"admin",
+								"690cae4b4b3e8dc8d205d421"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order status update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDcxNjAxYjA1M2M3ZjAyYTIzYTY2ZSIsImlhdCI6MTc2MjA3MjA2NSwiZXhwIjoxNzY0NjY0MDY1fQ.f6dZreNIje8v9ADuQnE8rMrYHpmUE8WGdoHu31BFrfc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\" : \"processing\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7000/api/v1/orders/admin/status/690cae4b4b3e8dc8d205d421",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								"admin",
+								"status",
+								"690cae4b4b3e8dc8d205d421"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Orders",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDcxNjAxYjA1M2M3ZjAyYTIzYTY2ZSIsImlhdCI6MTc2MjA3MjA2NSwiZXhwIjoxNzY0NjY0MDY1fQ.f6dZreNIje8v9ADuQnE8rMrYHpmUE8WGdoHu31BFrfc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7000/api/v1/orders/6901fddf5e4dca17fc889ee4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								"6901fddf5e4dca17fc889ee4"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "StartFragmentEndpoints related to orders.  \nUsers can create, view, and manage their orders, while admins can view all orders and update their statuses.EndFragment"
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Product Creation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDcxNjAxYjA1M2M3ZjAyYTIzYTY2ZSIsImlhdCI6MTc2MjA3MjA2NSwiZXhwIjoxNzY0NjY0MDY1fQ.f6dZreNIje8v9ADuQnE8rMrYHpmUE8WGdoHu31BFrfc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"24K white gold ring, ring\",\r\n    \"description\": \"5.5 gold for ring 24K white gold ring,\",\r\n    \"price\": 17259,\r\n    \"weight\": 7.43,\r\n    \"category\": \"690a1fe7966c8d600e647dd3\",\r\n    \"image\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7000/api/v1/products/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDcxNjAxYjA1M2M3ZjAyYTIzYTY2ZSIsImlhdCI6MTc2MjA3MjA2NSwiZXhwIjoxNzY0NjY0MDY1fQ.f6dZreNIje8v9ADuQnE8rMrYHpmUE8WGdoHu31BFrfc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7000/api/v1/products?minPrice=50&maxPrice=30000&category=Rings&page=1&limit=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"products"
+							],
+							"query": [
+								{
+									"key": "minPrice",
+									"value": "50"
+								},
+								{
+									"key": "maxPrice",
+									"value": "30000"
+								},
+								{
+									"key": "category",
+									"value": "Rings"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "inStock",
+									"value": "false",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7000/api/v1/products/6911e623a62aed3f1c1f516c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"6911e623a62aed3f1c1f516c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDcxNjAxYjA1M2M3ZjAyYTIzYTY2ZSIsImlhdCI6MTc2MjA3MjA2NSwiZXhwIjoxNzY0NjY0MDY1fQ.f6dZreNIje8v9ADuQnE8rMrYHpmUE8WGdoHu31BFrfc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/AriyanDigital/Downloads/501420_M1_RND_DIM_wht_0100CT_W_001_800X800.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:7000/api/v1/products/admin/6911e9573edc3408595eda9c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"admin",
+								"6911e9573edc3408595eda9c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDcxNjAxYjA1M2M3ZjAyYTIzYTY2ZSIsImlhdCI6MTc2MjA3MjA2NSwiZXhwIjoxNzY0NjY0MDY1fQ.f6dZreNIje8v9ADuQnE8rMrYHpmUE8WGdoHu31BFrfc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7000/api/v1/products/admin/6907292172428830ff2232f1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"admin",
+								"6907292172428830ff2232f1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Product search",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDcxNjAxYjA1M2M3ZjAyYTIzYTY2ZSIsImlhdCI6MTc2MjA3MjA2NSwiZXhwIjoxNzY0NjY0MDY1fQ.f6dZreNIje8v9ADuQnE8rMrYHpmUE8WGdoHu31BFrfc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7000/api/v1/products/search?title=gold",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"search"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "gold"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "StartFragmentEndpoints for managing products in the store.  \nIncludes adding, editing, deleting, searching, filtering, and retrieving product details.EndFragment"
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Making categories",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDcxNjAxYjA1M2M3ZjAyYTIzYTY2ZSIsImlhdCI6MTc2MjA3MjA2NSwiZXhwIjoxNzY0NjY0MDY1fQ.f6dZreNIje8v9ADuQnE8rMrYHpmUE8WGdoHu31BFrfc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Fashion Jewellery\",\r\n    \"slug\": \"fashion-jewellery\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7000/api/v1/category/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"category",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all categories",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDcxNjAxYjA1M2M3ZjAyYTIzYTY2ZSIsImlhdCI6MTc2MjA3MjA2NSwiZXhwIjoxNzY0NjY0MDY1fQ.f6dZreNIje8v9ADuQnE8rMrYHpmUE8WGdoHu31BFrfc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7000/api/v1/category/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"category",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get categories",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDcxNjAxYjA1M2M3ZjAyYTIzYTY2ZSIsImlhdCI6MTc2MjA3MjA2NSwiZXhwIjoxNzY0NjY0MDY1fQ.f6dZreNIje8v9ADuQnE8rMrYHpmUE8WGdoHu31BFrfc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7000/api/v1/category/690a23cef3108fcfd30b1156",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"category",
+								"690a23cef3108fcfd30b1156"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update categories",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDcxNjAxYjA1M2M3ZjAyYTIzYTY2ZSIsImlhdCI6MTc2MjA3MjA2NSwiZXhwIjoxNzY0NjY0MDY1fQ.f6dZreNIje8v9ADuQnE8rMrYHpmUE8WGdoHu31BFrfc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Earrings\",\r\n    \"slug\": \"earrings\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7000/api/v1/category/admin/690a215e2bb8a2c6ad2b8d77",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"category",
+								"admin",
+								"690a215e2bb8a2c6ad2b8d77"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove categories",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDcxNjAxYjA1M2M3ZjAyYTIzYTY2ZSIsImlhdCI6MTc2MjA3MjA2NSwiZXhwIjoxNzY0NjY0MDY1fQ.f6dZreNIje8v9ADuQnE8rMrYHpmUE8WGdoHu31BFrfc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7000/api/v1/category/admin/6915a78b215e672de0c1fe0e",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"category",
+								"admin",
+								"6915a78b215e672de0c1fe0e"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "StartFragmentEndpoints for managing product categories.  \nAdmins can create, update, and delete categories; users can browse them.EndFragment"
+		},
+		{
+			"name": "Payment",
+			"item": [
+				{
+					"name": "Create Payment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MGYxZGUxNTE5MTk0YzI3OTZkMzI2YSIsImlhdCI6MTc2MjU5ODQ5NiwiZXhwIjoxNzY1MTkwNDk2fQ.dEUaPXp_NU2V5i4ZTjbHUcGs4ITvrZHTXYFhbSrMXDg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orderId\": \"690cae4b4b3e8dc8d205d421\",\r\n    \"method\" : \"cash\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7000/api/v1/payments/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"payments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Payments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDcxNjAxYjA1M2M3ZjAyYTIzYTY2ZSIsImlhdCI6MTc2MjA3MjA2NSwiZXhwIjoxNzY0NjY0MDY1fQ.f6dZreNIje8v9ADuQnE8rMrYHpmUE8WGdoHu31BFrfc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7000/api/v1/payments/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"payments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDcxNjAxYjA1M2M3ZjAyYTIzYTY2ZSIsImlhdCI6MTc2MjA3MjA2NSwiZXhwIjoxNzY0NjY0MDY1fQ.f6dZreNIje8v9ADuQnE8rMrYHpmUE8WGdoHu31BFrfc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\" : \"success\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7000/api/v1/payments/admin/690cca70db6f8f0309fe133c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"payments",
+								"admin",
+								"690cca70db6f8f0309fe133c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Payment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MDcxNjAxYjA1M2M3ZjAyYTIzYTY2ZSIsImlhdCI6MTc2MjA3MjA2NSwiZXhwIjoxNzY0NjY0MDY1fQ.f6dZreNIje8v9ADuQnE8rMrYHpmUE8WGdoHu31BFrfc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7000/api/v1/payments/admin/690f1fdc111d6d6b3d6030c2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"payments",
+								"admin",
+								"690f1fdc111d6d6b3d6030c2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "StartFragmentEndpoints for managing payments and transactions.  \n  \nIncludes creating payment sessions, checking payment status, and updating payment results.EndFragment"
+		},
+		{
+			"name": "Comment",
+			"item": [
+				{
+					"name": "Create a comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MGYxZGUxNTE5MTk0YzI3OTZkMzI2YSIsImlhdCI6MTc2MjU5ODQ5NiwiZXhwIjoxNzY1MTkwNDk2fQ.dEUaPXp_NU2V5i4ZTjbHUcGs4ITvrZHTXYFhbSrMXDg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productId\": \"6911e843b06922ec95ce0a50\",\r\n    \"body\": \"This was the best necklace I ever bought. Thank you to your team.❤️\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7000/api/v1/comments/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"comments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Receive a comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MGYxZGUxNTE5MTk0YzI3OTZkMzI2YSIsImlhdCI6MTc2MjU5ODQ5NiwiZXhwIjoxNzY1MTkwNDk2fQ.dEUaPXp_NU2V5i4ZTjbHUcGs4ITvrZHTXYFhbSrMXDg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7000/api/v1/comments/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"comments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Comment update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MGYxZGUxNTE5MTk0YzI3OTZkMzI2YSIsImlhdCI6MTc2MjU5ODQ5NiwiZXhwIjoxNzY1MTkwNDk2fQ.dEUaPXp_NU2V5i4ZTjbHUcGs4ITvrZHTXYFhbSrMXDg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"body\" : \"Good product, thank you very much for your taste and respect❤️\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7000/api/v1/comments/6910f7bac8cf97ee5d623345",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"comments",
+								"6910f7bac8cf97ee5d623345"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MGYxZGUxNTE5MTk0YzI3OTZkMzI2YSIsImlhdCI6MTc2MjU5ODQ5NiwiZXhwIjoxNzY1MTkwNDk2fQ.dEUaPXp_NU2V5i4ZTjbHUcGs4ITvrZHTXYFhbSrMXDg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7000/api/v1/comments/6910b44c8861cae82752afa2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7000",
+							"path": [
+								"api",
+								"v1",
+								"comments",
+								"6910b44c8861cae82752afa2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "StartFragmentEndpoints for managing product comments and reviews.\n\nUsers can add, edit, delete, and view comments on products.EndFragment"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
