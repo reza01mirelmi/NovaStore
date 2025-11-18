@@ -22,7 +22,7 @@ src/
  └── app.js
 
 ## Installation
-git clone <repo-url>
+git clone https://github.com/reza01mirelmi/NovaStore.git
 cd nova-store
 npm install
 npm start
@@ -33,6 +33,12 @@ POST   /products
 GET    /products/:id
 PUT    /products/:id
 DELETE /products/:id
+
+## API Documentation
+All API routes are fully documented using Postman.  
+You can test all endpoints by importing the provided Postman collection from the `postman` folder:
+postman/postman_collection.json
+This allows you to easily explore and test the API without manually configuring requests.
 
 ## What I Learned
 - Real MVC structure
