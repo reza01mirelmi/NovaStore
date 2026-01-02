@@ -37,7 +37,7 @@ DELETE /products/:id
 ## API Documentation
 All API routes are fully documented using Postman.  
 You can test all endpoints by importing the provided Postman collection from the `postman` folder:
-postman/postman_collection.json
+postman/NovaStore.postman_collection.json
 This allows you to easily explore and test the API without manually configuring requests.
 
 ## What I Learned
