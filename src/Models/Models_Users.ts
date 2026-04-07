@@ -1,6 +1,7 @@
-const mongoose = require("mongoose");
+import { Schema, model } from "mongoose";
+import { userModels } from "../Types/user";
 
-const UserSchema = new mongoose.Schema(
+const UserSchema = new Schema<userModels>(
   {
     name: {
       type: String,
@@ -36,5 +37,5 @@ UserSchema.virtual("orders", {
   foreignField: "userId",
 });
 
-const Users = mongoose.model("User", UserSchema, "User");
+const Users = model("User", UserSchema, "User");
 module.exports = Users;

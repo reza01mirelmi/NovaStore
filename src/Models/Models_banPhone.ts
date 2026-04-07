@@ -1,14 +1,17 @@
-const mongoose = require("mongoose");
+import { Schema, model } from "mongoose";
+import { banModels } from "../Types/banPhone";
 
-const UserSchema = new mongoose.Schema(
+const BanPhoneSchema = new Schema<banModels>(
   {
     phone: {
       type: String,
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true, collection: "BanPhone" }
 );
 
-const PhoneBan = mongoose.model("BanPhone", UserSchema, "BanPhone");
-module.exports = PhoneBan;
+BanPhoneSchema.set("toJSON", { virtuals: true });
+BanPhoneSchema.set("toObject", { virtuals: true });
+
+export default model<banModels>("BanPhone", BanPhoneSchema);

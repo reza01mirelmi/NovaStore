@@ -1,6 +1,6 @@
-const Validator = require("fastest-validator");
+import Validator from "fastest-validator";
 
-const s = new Validator();
+const v = new Validator();
 
 const schema = {
   title: {
@@ -17,5 +17,5 @@ const schema = {
   },
 };
 
-const Valid = s.compile(schema);
-module.exports = Valid;
+const Valid = v.compile(schema);
+export default Valid;

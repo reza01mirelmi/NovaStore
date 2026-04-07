@@ -1,4 +1,4 @@
-const Validator = require("fastest-validator");
+import Validator from "fastest-validator";
 
 const s = new Validator();
 
@@ -23,4 +23,4 @@ const schema = {
 };
 
 const Valid = s.compile(schema);
-module.exports = Valid;
+export default Valid;

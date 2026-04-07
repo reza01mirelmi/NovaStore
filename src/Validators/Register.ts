@@ -1,13 +1,13 @@
-const Validator = require("fastest-validator");
+import validator from "fastest-validator";
 
-const valid = new Validator();
+const v = new validator();
 
 const schema = {
   name: {
     type: "string",
     min: 3,
     max: 255,
-    required: [true, "name is required!"],
+    required: true,
     empty: false,
   },
   email: {
@@ -15,35 +15,33 @@ const schema = {
     min: 8,
     max: 100,
     pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-    required: [true, "email is required!"],
+    required: true,
     empty: false,
   },
   phone: {
     type: "string",
-    validate: {
-      Validator: function (v) {
-        return /^\+?\d{6,15}$/.test(value);
-      },
-      message: (props) => `${props.value} is not a valid phone number!`,
-    },
-    required: [true, "phone is required!"],
     empty: false,
+    required: true,
+    pattern: /^\+?\d{6,15}$/,
+    messages: {
+      stringPattern: "Phone number must be valid and contain 6-15 digits.",
+    },
   },
   password: {
     type: "string",
     min: 8,
     max: 24,
-    required: [true, "password is required!"],
+    required: true,
     empty: false,
   },
   passwordReset: {
     type: "equal",
     field: "password",
-    required: [true, "passwordReset is required!"],
+    required: true,
     empty: false,
   },
   $$strict: true,
 };
 
-const ValidRegister = valid.compile(schema);
-module.exports = ValidRegister;
+const validAuthor = v.compile(schema);
+export default validAuthor;

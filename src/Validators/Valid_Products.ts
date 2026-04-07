@@ -1,4 +1,4 @@
-const Validator = require("fastest-validator");
+import Validator from "fastest-validator";
 
 const valid = new Validator();
 
@@ -38,4 +38,4 @@ const schema = {
 };
 
 const ValidProduct = valid.compile(schema);
-module.exports = ValidProduct;
+export default ValidProduct;

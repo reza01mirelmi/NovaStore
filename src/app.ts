@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response, NextFunction } from "express";
 import UserRoute from "./Routes/v1/Routes_Users";
 import ProductRoute from "./Routes/v1/Routes_Products";
 import OrderRoute from "./Routes/v1/Routes_Orders";

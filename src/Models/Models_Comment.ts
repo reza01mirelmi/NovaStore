@@ -1,13 +1,14 @@
-const mongoose = require("mongoose");
+import { Schema, model, Types } from "mongoose";
+import { commentModels } from "../Types/comment";
 
-const OrdersSchema = new mongoose.Schema(
+const CommentSchema = new Schema<commentModels>(
   {
     productId: {
-      type: mongoose.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Product",
     },
     userId: {
-      type: mongoose.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
     },
     body: {
@@ -20,5 +21,4 @@ const OrdersSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Orders = mongoose.model("Comment", OrdersSchema, "Comment");
-module.exports = Orders;
+export default model<commentModels>("Comment", CommentSchema);

@@ -1,16 +1,15 @@
-const mongoose = require("mongoose");
+import { Schema, model, Types } from "mongoose";
+import { paymentModels } from "../Types/payment";
 
-const PaymentSchema = new mongoose.Schema(
+const PaymentSchema = new Schema<paymentModels>(
   {
     orderId: {
-      type: mongoose.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Order",
-      required: true,
     },
     userId: {
-      type: mongoose.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
-      required: true,
     },
     amount: {
       type: Number,
@@ -32,8 +31,9 @@ const PaymentSchema = new mongoose.Schema(
       default: "pending",
     },
   },
-  { timeseries: true }
+  { timestamps: true, collection: "Payment" },
 );
-
-const Payments = mongoose.model("Payment", PaymentSchema, "Payment");
-module.exports = Payments;
+PaymentSchema.set("toJSON", { virtuals: true });
+PaymentSchema.set("toObject", { virtuals: true });
+const Payments = model("Payment", PaymentSchema);
+export default Payments;

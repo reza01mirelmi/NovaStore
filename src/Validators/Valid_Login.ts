@@ -1,26 +1,25 @@
-const Validator = require("fastest-validator");
+import validator from "fastest-validator";
 
-const valid = new Validator();
+const v = new validator();
 
-const loginSchema = {
+const schema = {
   identifier: {
     type: "string",
     empty: false,
-    custom(value) {
-      const isEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
-        value
-      );
-      const isPhone = /^\+?\d{6,15}$/.test(value);
+    trim: true,
+    custom(value: string) {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      const phoneRegex = /^\+?\d{6,15}$/;
 
-      if (!isEmail && !isPhone) {
+      if (!emailRegex.test(value) && !phoneRegex.test(value)) {
         return "Must be a valid email or mobile number❌";
       }
-
       return true;
     },
   },
-  password: { type: "string", min: 6, empty: false },
+  password: { type: "string", min: 8, empty: false },
+  $$strict: true,
 };
 
-const ValidRegister = valid.compile(loginSchema);
-module.exports = ValidRegister;
+const validLogin = v.compile(schema);
+export default validLogin;
