@@ -1,23 +1,27 @@
-const jwt = require("jsonwebtoken");
-const userModele = require("./../Models/Models_Users");
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { Request, Response, NextFunction } from "express";
+import authorModel from "../models/Models_Users";
 
-module.exports = async (req, res, next) => {
+export default async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const authHedear = req.header("Authorization")?.split(" ");
+    const authHeader = req.header("Authorization")?.split(" ");
 
-    if (!authHedear || authHedear.length !== 2) {
+    if (!authHeader || authHeader.length !== 2) {
       return res.status(403).json({
         success: false,
         message: "Access denied. This API requires authentication.",
       });
     }
 
-    const token = authHedear[1];
+    const token = authHeader[1];
 
     try {
-      const jwtpayload = jwt.verify(token, process.env.SECRET_JWT);
+      const jwtpayload = jwt.verify(
+        token,
+        process.env.SECRET_JWT!,
+      ) as JwtPayload;
 
-      const user = await userModele.findById(jwtpayload.id).lean();
+      const user = await authorModel.findById(jwtpayload.id).lean();
 
       if (!user) {
         return res
@@ -30,19 +34,21 @@ module.exports = async (req, res, next) => {
       req.user = user;
 
       next();
-    } catch (err) {
-      if (err.name === "TokenExpiredError") {
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        if (err.name === "TokenExpiredError") {
+          return res.status(401).json({
+            success: false,
+            error: "token_expired",
+            message: "Your token has expired. Please login again.",
+          });
+        }
         return res.status(401).json({
           success: false,
-          error: "token_expired",
-          message: "Your token has expired. Please login again.",
+          error: "invalid_token",
+          message: "Your token is invalid. Please login again.",
         });
       }
-      return res.status(401).json({
-        success: false,
-        error: "invalid_token",
-        message: "Your token is invalid. Please login again.",
-      });
     }
   } catch (err) {
     next(err);

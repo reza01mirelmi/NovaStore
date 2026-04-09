@@ -28,7 +28,7 @@ const UserSchema = new Schema<userModels>(
       default: "USER",
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 UserSchema.virtual("orders", {
@@ -38,4 +38,4 @@ UserSchema.virtual("orders", {
 });
 
 const Users = model("User", UserSchema, "User");
-module.exports = Users;
+export default Users;

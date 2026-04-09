@@ -1,6 +1,8 @@
-module.exports = async (req, res, next) => {
+import { Request, Response, NextFunction } from "express";
+
+const checkAdmin = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const isAdmin = req.user.role == "ADMIN";
+    const isAdmin = req.user?.role === "ADMIN";
 
     if (isAdmin) {
       return next();
@@ -14,3 +16,5 @@ module.exports = async (req, res, next) => {
     next(err);
   }
 };
+
+export default checkAdmin;

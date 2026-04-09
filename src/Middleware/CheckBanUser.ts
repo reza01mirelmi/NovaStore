@@ -1,6 +1,7 @@
-const banUserModele = require("./../Models/Models_banPhone");
+import { Request, Response, NextFunction } from "express";
+import banUserModele from "./../Models/Models_banPhone";
 
-exports.CheckBan = async (req, res, next) => {
+const checkBan = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const input = req.body.phone || req.body.identifier;
 
@@ -22,3 +23,5 @@ exports.CheckBan = async (req, res, next) => {
     next(err);
   }
 };
+
+export default checkBan;

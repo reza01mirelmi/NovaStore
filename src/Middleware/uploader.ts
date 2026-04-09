@@ -1,37 +1,36 @@
-const multer = require("multer");
-const path = require("path");
+import multer, { FileFilterCallback } from "multer";
+import path from "path";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "Uploads/");
+    cb(null, "uploads/");
   },
-
   filename: (req, file, cb) => {
-    const Filename = Date.now() + Math.random();
+    const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
     const ext = path.extname(file.originalname);
-
-    const ValidType = ["image/jpg", "image/jpeg", "image/png"];
-    // const ValidType = [".jpg", ".jpeg", ".png"];
-
-    if (ValidType.includes(file.mimetype)) {
-      // ==> includes(ext) ✅
-      cb(null, `${Filename}${ext}`);
-    } else {
-      cb(
-        new Error(
-          "Please select the file according to the desired types. [ jpg | jepg | png ]"
-        )
-      );
-    }
+    cb(null, `${filename}${ext}`);
   },
 });
 
-const maxsize = 3 * 1000 * 1000;
+const maxSize = 3 * 1024 * 1024; // 3MB
+const allowedMimeTypes = ["image/jpg", "image/jpeg", "image/png"];
+
+const fileFilter = (
+  req: Express.Request,
+  file: Express.Multer.File,
+  cb: FileFilterCallback,
+) => {
+  if (allowedMimeTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(new Error("Please select a file of type: jpg, jpeg, png"));
+  }
+};
+
 const upload = multer({
   storage,
-  limits: {
-    fileSize: maxsize,
-  },
+  limits: { fileSize: maxSize },
+  fileFilter,
 });
 
-module.exports = upload;
+export default upload;

@@ -1,4 +1,11 @@
-const errorhandling = (err, req, res, next) => {
+import { Request, Response, NextFunction } from "express";
+
+const errorhandling = (
+  err: any,
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   console.error("Error :", err);
 
   const statusCode = err.statusCode || 500;
