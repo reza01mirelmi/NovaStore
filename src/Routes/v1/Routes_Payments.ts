@@ -1,8 +1,8 @@
-const express = require("express");
-const paymentController = require("./../../Controllers/v1/Payments_Controllers");
-const verifytokenMidd = require("./../../Middleware/VerifyToken");
-const checkAdminMidd = require("./../../Middleware/CheckAdmins");
-const validObjectId = require("./../../Middleware/validateObjectId");
+import express from "express";
+import paymentController from "./../../Controllers/v1/Payments_Controllers";
+import verifytokenMidd from "./../../Middleware/VerifyToken";
+import checkAdminMidd from "./../../Middleware/CheckAdmins";
+import validObjectId from "./../../Middleware/validateObjectId";
 
 const router = express.Router();
 
@@ -11,7 +11,7 @@ router
   .post(
     validObjectId("orderId"),
     verifytokenMidd,
-    paymentController.createPayment
+    paymentController.createPayment,
   )
   .get(verifytokenMidd, checkAdminMidd, paymentController.getPayments);
 
@@ -21,13 +21,13 @@ router
     validObjectId("id"),
     verifytokenMidd,
     checkAdminMidd,
-    paymentController.updatePayment
+    paymentController.updatePayment,
   )
   .delete(
     validObjectId("id"),
     verifytokenMidd,
     checkAdminMidd,
-    paymentController.deletePayment
+    paymentController.deletePayment,
   );
 
-module.exports = router;
+export default router;

@@ -1,8 +1,8 @@
-const express = require("express");
-const categoryController = require("../../Controllers/v1/Category_Controllers");
-const verifytokenMidd = require("./../../Middleware/VerifyToken");
-const checkAdminMidd = require("./../../Middleware/CheckAdmins");
-const validObjectId = require("./../../Middleware/validateObjectId");
+import express from "express";
+import categoryController from "../../Controllers/v1/Category_Controllers";
+import verifytokenMidd from "./../../Middleware/VerifyToken";
+import checkAdminMidd from "./../../Middleware/CheckAdmins";
+import validObjectId from "./../../Middleware/validateObjectId";
 
 const router = express.Router();
 
@@ -19,13 +19,13 @@ router
     validObjectId("id"),
     verifytokenMidd,
     checkAdminMidd,
-    categoryController.updateCategory
+    categoryController.updateCategory,
   )
   .delete(
     validObjectId("id"),
     verifytokenMidd,
     checkAdminMidd,
-    categoryController.deleteCategory
+    categoryController.deleteCategory,
   );
 
-module.exports = router;
+export default router;

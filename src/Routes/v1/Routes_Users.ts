@@ -1,8 +1,9 @@
-const express = require("express");
-const userControllers = require("../../Controllers/v1/User_Controllers");
-const verifytokenMidd = require("./../../Middleware/VerifyToken");
-const checkAdminMidd = require("./../../Middleware/CheckAdmins");
-const validObjectId = require("./../../Middleware/validateObjectId");
+import express from "express";
+import userControllers from "../../Controllers/v1/User_Controllers";
+import verifytokenMidd from "./../../Middleware/VerifyToken";
+import checkAdminMidd from "./../../Middleware/CheckAdmins";
+import validObjectId from "./../../Middleware/validateObjectId";
+
 const users = express.Router();
 
 users
@@ -16,13 +17,13 @@ users
     validObjectId("id"),
     verifytokenMidd,
     checkAdminMidd,
-    userControllers.oneUser
+    userControllers.oneUser,
   )
   .delete(
     validObjectId("id"),
     verifytokenMidd,
     checkAdminMidd,
-    userControllers.remove
+    userControllers.remove,
   );
 
 users
@@ -31,7 +32,7 @@ users
     validObjectId("id"),
     verifytokenMidd,
     checkAdminMidd,
-    userControllers.banUser
+    userControllers.banUser,
   );
 
 users
@@ -40,7 +41,7 @@ users
     validObjectId("id"),
     verifytokenMidd,
     checkAdminMidd,
-    userControllers.changeRole
+    userControllers.changeRole,
   );
 
-module.exports = users;
+export default users;

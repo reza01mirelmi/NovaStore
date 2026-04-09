@@ -1,8 +1,8 @@
-const express = require("express");
-const orderController = require("../../Controllers/v1/Orders_Controllers");
-const verifytokenMidd = require("./../../Middleware/VerifyToken");
-const checkAdminMidd = require("./../../Middleware/CheckAdmins");
-const validObjectId = require("./../../Middleware/validateObjectId");
+import express from "express";
+import orderController from "../../Controllers/v1/Orders_Controllers";
+import verifytokenMidd from "./../../Middleware/VerifyToken";
+import checkAdminMidd from "./../../Middleware/CheckAdmins";
+import validObjectId from "./../../Middleware/validateObjectId";
 
 const router = express.Router();
 
@@ -11,7 +11,7 @@ router
   .post(
     validObjectId("productId"),
     verifytokenMidd,
-    orderController.createOrder
+    orderController.createOrder,
   );
 router.route("/my").get(verifytokenMidd, orderController.getMyOrder);
 router
@@ -28,7 +28,7 @@ router
     validObjectId("id"),
     verifytokenMidd,
     checkAdminMidd,
-    orderController.updateOrderStatus
+    orderController.updateOrderStatus,
   );
 
 router
@@ -37,7 +37,7 @@ router
     validObjectId("id"),
     verifytokenMidd,
     checkAdminMidd,
-    orderController.getOrderDetails
+    orderController.getOrderDetails,
   );
 
-module.exports = router;
+export default router;

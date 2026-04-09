@@ -1,7 +1,8 @@
-const express = require("express");
-const commentController = require("../../Controllers/v1/Comments_Controllers");
-const verifytokenMidd = require("./../../Middleware/VerifyToken");
-const validObjectId = require("./../../Middleware/validateObjectId");
+import express from "express";
+import commentController from "../../Controllers/v1/Comments_Controllers";
+import verifytokenMidd from "./../../Middleware/VerifyToken";
+import validObjectId from "./../../Middleware/validateObjectId";
+
 const router = express.Router();
 
 router
@@ -9,7 +10,7 @@ router
   .post(
     validObjectId("productId"),
     verifytokenMidd,
-    commentController.createComment
+    commentController.createComment,
   )
   .get(verifytokenMidd, commentController.getComment);
 
@@ -19,7 +20,7 @@ router
   .delete(
     validObjectId("id"),
     verifytokenMidd,
-    commentController.deleteComment
+    commentController.deleteComment,
   );
 
-module.exports = router;
+export default router;

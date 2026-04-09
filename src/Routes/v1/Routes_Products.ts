@@ -1,9 +1,10 @@
-const express = require("express");
-const productControllers = require("../../Controllers/v1/Product_Controllers");
-const verifytokenMidd = require("./../../Middleware/VerifyToken");
-const checkAdmin = require("../../Middleware/CheckAdmins");
-const validObjectId = require("./../../Middleware/validateObjectId");
-const uploader = require("../../Middleware/uploader");
+import express from "express";
+import productControllers from "../../Controllers/v1/Product_Controllers";
+import verifytokenMidd from "./../../Middleware/VerifyToken";
+import checkAdmin from "../../Middleware/CheckAdmins";
+import validObjectId from "./../../Middleware/validateObjectId";
+import uploader from "../../Middleware/uploader";
+
 const router = express.Router();
 
 router
@@ -13,7 +14,7 @@ router
     verifytokenMidd,
     checkAdmin,
     uploader.single("image"),
-    productControllers.productCreation
+    productControllers.productCreation,
   );
 router.route("/search").get(productControllers.searchProducts);
 router.route("/:id").get(validObjectId("id"), productControllers.getProduct);
@@ -25,13 +26,13 @@ router
     verifytokenMidd,
     checkAdmin,
     uploader.single("image"),
-    productControllers.updateProduct
+    productControllers.updateProduct,
   )
   .delete(
     validObjectId("id"),
     verifytokenMidd,
     checkAdmin,
-    productControllers.deleteProduct
+    productControllers.deleteProduct,
   );
 
-module.exports = router;
+export default router;
