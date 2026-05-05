@@ -1,93 +1,79 @@
-const userModele = require("../../Models/Models_Users");
-const ValidateRegister = require("../../Validators/Register");
-const validateLogin = require("../../Validators/Valid_Login");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+import { Request, Response, NextFunction } from "express";
+import ValidateRegister from "../../Validators/Register";
+import validateLogin from "../../Validators/Valid_Login";
+import {
+  registerService,
+  loginService,
+  getMeService,
+} from "../../services/auth.services";
+import { RegisterDTO, loginDTO } from "../../Types/auth";
 
-exports.register = async (req, res, next) => {
+const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const isBodyValidated = ValidateRegister(req.body);
+    const input: RegisterDTO = req.body;
+    const isBodyValidated = ValidateRegister(input);
+
     if (isBodyValidated !== true) {
       return res.status(400).json(isBodyValidated);
     }
+    const result = await registerService(input);
 
-    const { name, email, password, phone } = req.body;
-    const isUserExists = await userModele.findOne({
-      $or: [{ email }, { phone }],
-    });
-    if (isUserExists) {
+    if (!result) {
       return res
         .status(409)
         .json({ message: "This email Or Phone is already registered.❌" });
     }
 
-    const countUsers = await userModele.countDocuments();
-    const hashPassword = await bcrypt.hash(password, 10);
-
-    const user = await userModele.create({
-      name,
-      email,
-      phone,
-      password: hashPassword,
-      role: countUsers > 0 ? "USER" : "ADMIN",
-    });
-
-    const userObject = user.toObject();
-    Reflect.deleteProperty(userObject, "password");
-
-    const accsesToken = jwt.sign({ id: user._id }, process.env.SECRET_JWT, {
-      expiresIn: "30 day",
-    });
+    const { user, accessToken } = result;
 
     return res.status(201).json({
       message: "User created successfully.✅ ",
-      user: userObject,
-      accsesToken,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        role: user.role,
+      },
+      accessToken,
     });
   } catch (err) {
     next(err);
   }
 };
 
-exports.login = async (req, res, next) => {
+const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const isBodyValidated = validateLogin(req.body);
+    const input: loginDTO = req.body;
+    const isBodyValidated = validateLogin(input);
 
     if (isBodyValidated !== true) {
       return res.status(400).json(isBodyValidated);
     }
-    const { identifier, password } = req.body;
 
-    const user = await userModele.findOne({
-      $or: [{ email: identifier }, { phone: identifier }],
-    });
+    const result = await loginService(input);
 
-    if (!user) {
-      return res.status(409).json({ message: "User not found.❌" });
+    if (result === null) {
+      return res.status(404).json({ message: "User not found.❌" });
     }
 
-    const checkPassword = await bcrypt.compare(password, user.password);
-
-    if (!checkPassword) {
-      res.status(401).json({ message: "The password is not correct.❌" });
+    if (result === false) {
+      return res
+        .status(401)
+        .json({ message: "The password is not correct.❌" });
     }
 
-    const accsesToken = jwt.sign({ id: user._id }, process.env.SECRET_JWT, {
-      expiresIn: "30 day",
-    });
+    const { user, accsesToken } = result;
 
-    return res.status(200).json({ accsesToken });
+    return res.status(200).json({ user, accsesToken });
   } catch (err) {
     next(err);
   }
 };
 
-exports.getme = async (req, res, next) => {
+const getMe = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const user = await userModele
-      .findById(req.user._id)
-      .select("-password -__v")
-      .lean();
+    const user = await getMeService(req.user._id);
 
     if (!user) {
       return res.status(404).json({ message: "User not found ❌" });
@@ -99,4 +85,10 @@ exports.getme = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+};
+
+export default {
+  register,
+  login,
+  getMe,
 };

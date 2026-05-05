@@ -1,114 +1,94 @@
-const modelsOrders = require("../../Models/Models_Orders");
-const productModel = require("../../Models/Models_Products");
-const validOrders = require("./../../Validators/Valid_Orders");
-const { isValidObjectId } = require("mongoose");
+import { Request, Response, NextFunction } from "express";
+import validOrders from "./../../Validators/Valid_Orders";
+import { typeOrders } from "../../Types/orders";
+import {
+  createOrdersService,
+  deleteOrderService,
+  getAllOrdersService,
+  getDetailsService,
+  getOrderService,
+  updateStatusService,
+} from "../../services/orders.services";
 
-exports.createOrder = async (req, res, next) => {
+const createOrder = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    const userId = req.user._id;
     const isBodyValidated = validOrders(req.body);
 
     if (isBodyValidated != true) {
       return res.status(400).json({ message: "The data sent is not valid.❌" });
     }
-    const { productId, quantity, address } = req.body;
-    const findproduct = await productModel.findById({ _id: productId });
+    const { productId, quantity, address }: typeOrders = req.body;
 
-    if (!findproduct) {
-      return res.status(404).json({ message: "Product not found.❌" });
-    }
-    const totalPrice = findproduct.price * quantity;
-
-    const findOrder = await modelsOrders.findOne({
-      userId: req.user._id,
-      productId,
-    });
-    if (findOrder) {
-      const updateOrders = await modelsOrders.findOneAndUpdate(
-        { userId: req.user._id, productId },
-        {
-          $inc: { quantity },
-          $set: {
-            totalPrice: findOrder.totalPrice + findproduct.price,
-          },
-        },
-        { new: true }
-      );
-      if (updateOrders) {
-        return res.status(200).json({ message: "Order quantity increased ✅" });
-      }
-    }
-    const createOrders = await modelsOrders.create({
-      userId: req.user._id,
+    const result = await createOrdersService(
       productId,
       quantity,
-      totalPrice,
       address,
+      userId,
+    );
+    return res.status(result.code).json({
+      message: result.message,
+      orders: result.createOrders || undefined,
     });
-
-    return res
-      .status(201)
-      .json({ message: "Order successfully placed✅", createOrders });
   } catch (err) {
     next(err);
   }
 };
 
-exports.getMyOrder = async (req, res, next) => {
+const getMyOrder = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const orders = await modelsOrders
-      .find({ userId: req.user._id })
-      .select("status quantity totalPrice address")
-      .populate("productId userId", "title price name email")
-      .lean();
-    if (orders.length === 0) {
-      return res.status(200).json({ message: "No orders found.", orders: [] });
-    }
-    return res
-      .status(200)
-      .json({ message: "Order found successfully✅", orders });
+    const userId = req.user._id;
+    const result = await getOrderService(userId);
+    return res.status(result.code).json({
+      message: result.message,
+      orders: result.orders || undefined,
+    });
   } catch (err) {
     next(err);
   }
 };
 
-exports.getAllOrders = async (req, res, next) => {
+const getAllOrders = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
-    const orders = await modelsOrders
-      .find({})
-      .select("_id productId quantity totalPrice status address")
-      .populate("productId userId", "title price name email")
-      .lean();
-    if (orders.length === 0) {
-      return res.status(200).json({ message: "No orders found.", orders: [] });
-    }
-    return res
-      .status(200)
-      .json({ message: "Orders retrieved successfully✅", orders });
+    const result = await getAllOrdersService();
+
+    return res.status(result.code).json({
+      message: result.message,
+      orders: result.orders || undefined,
+    });
   } catch (err) {
     next(err);
   }
 };
 
-exports.getOrderDetails = async (req, res, next) => {
+const getOrderDetails = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
-    const order = await modelsOrders
-      .findOne({ _id: req.params.id })
-      .select("status quantity totalPrice address")
-      .populate("productId userId", "title price name email")
-      .lean();
-    if (!order) {
-      return res.status(200).json({ message: "Order not found.❌" });
-    }
+    const orderId = req.params.id;
 
-    return res
-      .status(200)
-      .json({ message: "The desired order was found✅", order });
+    const result = await getDetailsService(orderId);
+
+    return res.status(result.code).json({
+      message: result.message,
+      order: result.order || undefined,
+    });
   } catch (err) {
     next(err);
   }
 };
 
-exports.updateOrderStatus = async (req, res, next) => {
+const updateOrderStatus = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const allowedStatuses = [
       "pending",
@@ -118,52 +98,43 @@ exports.updateOrderStatus = async (req, res, next) => {
       "cancelled",
     ];
     const { status } = req.body;
+    const orderId = req.params.id;
 
     if (!allowedStatuses.includes(status)) {
       return res.status(400).json({ message: "Invalid status ❌" });
     }
-    const updateStatus = await modelsOrders.findOneAndUpdate(
-      { _id: req.params.id },
-      {
-        $set: { status },
-      },
-      { new: true }
-    );
 
-    if (!updateStatus) {
-      return res.status(404).json({ message: "No orders found.❌" });
-    }
+    const result = await updateStatusService(status, orderId);
 
-    return res
-      .status(200)
-      .json({ message: "status updated successfully✅", updateStatus });
+    return res.status(result.code).json({
+      message: result.message,
+      order: result.updateStatus || undefined,
+    });
   } catch (err) {
     next(err);
   }
 };
 
-exports.deleteOrder = async (req, res, next) => {
+const deleteOrder = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    let deleteOrders;
-    // Admins can delete any order
-    if (req.user.Role == "ADMIN") {
-      deleteOrders = await modelsOrders.findOneAndDelete({
-        _id: req.params.id,
-      });
-    }
-    // Regular users can delete only their own orders
-    else {
-      deleteOrders = await modelsOrders.findOneAndDelete({
-        _id: req.params.id,
-        userId: req.user._id,
-      });
-    }
-    if (!deleteOrders) {
-      return res.status(404).json({ message: "No order found ❌" });
-    }
+    const role = req.user.Role;
+    const orderId = req.params.id as string;
+    const userId = req.user._id;
 
-    return res.status(200).json({ message: "Order successfully deleted✅" });
+    const result = await deleteOrderService(role, orderId, userId);
+    return res.status(result.code).json({
+      message: result.message,
+    });
   } catch (err) {
     next(err);
   }
+};
+
+export default {
+  createOrder,
+  getMyOrder,
+  getAllOrders,
+  getOrderDetails,
+  updateOrderStatus,
+  deleteOrder,
 };

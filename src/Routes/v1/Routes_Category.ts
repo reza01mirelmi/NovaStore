@@ -11,7 +11,7 @@ router
   .post(verifytokenMidd, checkAdminMidd, categoryController.createCategory)
   .get(categoryController.getAllCategory);
 
-router.route("/:id").get(validObjectId("id"), categoryController.getById);
+router.route("/:id").get(validObjectId("id"), categoryController.getCategory);
 
 router
   .route("/admin/:id")

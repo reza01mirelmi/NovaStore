@@ -9,6 +9,6 @@ router.route("/register").post(checkBan, authControllers.register);
 
 router.route("/login").post(checkBan, authControllers.login);
 
-router.route("/me").get(verifytokenMidd, authControllers.getme);
+router.route("/me").get(verifytokenMidd, authControllers.getMe);
 
 export default router;

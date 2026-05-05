@@ -1,6 +1,6 @@
 import { Document } from "mongoose";
 
-export interface categoryModels extends Document {
+export interface categoryType extends Document {
   title: string;
   slug: string;
   createdAt?: Date;

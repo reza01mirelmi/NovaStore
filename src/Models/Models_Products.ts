@@ -1,8 +1,8 @@
 import mongoose, { Schema, Types, Document, model } from "mongoose";
-import { productModels } from "../Types/product";
-export type productDocument = productModels & Document & { _id: Types.ObjectId };
+import { productType } from "../Types/product";
+export type productDocument = productType & Document & { _id: Types.ObjectId };
 
-const productSchema = new Schema<productModels>(
+const productSchema = new Schema<productType>(
   {
     title: {
       type: String,
@@ -37,7 +37,7 @@ const productSchema = new Schema<productModels>(
       type: String,
     },
   },
-  { timestamps: true, collection: "Product" }
+  { timestamps: true, collection: "Product" },
 );
 
 productSchema.virtual("Comments", {
@@ -49,4 +49,4 @@ productSchema.virtual("Comments", {
 productSchema.set("toJSON", { virtuals: true });
 productSchema.set("toObject", { virtuals: true });
 
-export default model<productModels>("Product", productSchema);
+export default model<productType>("Product", productSchema);

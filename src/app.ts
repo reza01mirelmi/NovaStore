@@ -25,8 +25,8 @@ app.use("/uploads", express.static("uploads"));
 
 app.use(
   morgan(
-    ":method :url HTTP/:http-version - :status :res[content-length] :referrer :user-agent :response-time ms"
-  )
+    ":method :url HTTP/:http-version - :status :res[content-length] :referrer :user-agent :response-time ms",
+  ),
 );
 app.use(helmet());
 app.use(cors());

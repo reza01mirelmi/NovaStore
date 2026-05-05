@@ -1,6 +1,6 @@
 import { Document, Types } from "mongoose";
 
-export interface ordersModels extends Document {
+export interface typeOrders extends Document {
   userId: Types.ObjectId;
   productId: Types.ObjectId;
   status: "pending" | "processing" | "shipped" | "delivered" | "cancelled";

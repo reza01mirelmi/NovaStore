@@ -1,6 +1,6 @@
-import {Types } from "mongoose";
+import { Types } from "mongoose";
 
-export interface paymentModels{
+export interface paymentModels {
   orderId: Types.ObjectId;
   userId: Types.ObjectId;
   amount: number;

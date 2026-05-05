@@ -14,4 +14,4 @@ const errorhandling = (
   res.status(statusCode).json({ status: err.status || "error", message });
 };
 
-module.exports = errorhandling;
+export default errorhandling;

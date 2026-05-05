@@ -1,7 +1,10 @@
-import { Schema, model } from "mongoose";
-import { categoryModels } from "../Types/category";
+import { Schema, model, Document, Types } from "mongoose";
+import { categoryType } from "../Types/category";
 
-const CategorySchema = new Schema<categoryModels>(
+export type CategoryDocument = categoryType &
+  Document & { _id: Types.ObjectId };
+
+const CategorySchema = new Schema<categoryType>(
   {
     title: {
       type: String,
@@ -16,7 +19,7 @@ const CategorySchema = new Schema<categoryModels>(
       unique: true,
     },
   },
-  { timestamps: true, collection: "Category" }
+  { timestamps: true, collection: "Category" },
 );
 
-export default model<categoryModels>("Category", CategorySchema);
+export default model("Category", CategorySchema);

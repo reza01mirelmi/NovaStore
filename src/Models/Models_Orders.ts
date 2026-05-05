@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
-import { ordersModels } from "../Types/orders";
+import { typeOrders } from "../Types/orders";
 
-const OrdersSchema = new Schema<ordersModels>(
+const OrdersSchema = new Schema<typeOrders>(
   {
     userId: {
       type: Schema.Types.ObjectId,
@@ -35,4 +35,4 @@ const OrdersSchema = new Schema<ordersModels>(
   { timestamps: true, collection: "Order" },
 );
 
-export default model<ordersModels>("Order", OrdersSchema);
+export default model<typeOrders>("Order", OrdersSchema);

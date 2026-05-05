@@ -1,25 +1,33 @@
-const modeleCategory = require("./../../Models/Models_Category");
-const validCategory = require("./../../Validators/Valid_Category");
+import { Request, Response, NextFunction } from "express";
+import validCategory from "./../../Validators/Valid_Category";
+import { categoryType } from "./../../Types/category";
+import {
+  categoryServices,
+  deleteCategoryServices,
+  getAllServices,
+  getCategoryServices,
+  updateCategoryServices,
+} from "../../services/category.services";
 
-exports.createCategory = async (req, res, next) => {
+const createCategory = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
-    const validBody = validCategory(req.body);
+    const input: categoryType = req.body;
+    const validBody = validCategory(input);
 
     if (validBody !== true) {
       return res.status(400).json({ message: "Invalid category data.❌" });
     }
+    const result = await categoryServices(input);
 
-    const { title, slug } = req.body;
-
-    const category = await modeleCategory.create({
-      title,
-      slug,
-    });
-
+    const { category } = result;
     return res
       .status(201)
       .json({ message: "Category created successfully✅", category });
-  } catch (err) {
+  } catch (err: any) {
     if (err.code === 11000) {
       return res.status(400).json({ message: "Category already exists. ❌" });
     }
@@ -27,99 +35,92 @@ exports.createCategory = async (req, res, next) => {
   }
 };
 
-exports.getAllCategory = async (req, res, next) => {
+const getAllCategory = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
-    const categories = await modeleCategory
-      .find({})
-      .select("title slug")
-      .lean();
-
-    if (categories.length == 0) {
-      return res
-        .status(200)
-        .json({ message: "No categories found.❌", categories: [] });
-    }
+    const result = await getAllServices();
 
     return res
-      .status(200)
-      .json({ message: "All categories fetched successfully✅", categories });
+      .status(result.code)
+      .json({ message: result.message, post: result.categories || undefined });
   } catch (err) {
     next(err);
   }
 };
 
-exports.getById = async (req, res, next) => {
+const getCategory = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const category = await modeleCategory
-      .findById(req.params.id)
-      .select("title slug")
-      .lean();
-
-    if (!category) {
-      return res.status(404).json({ message: "Category not found.❌" });
-    }
-
+    const result = await getCategoryServices(req.params.id);
+    const { category } = result;
     return res
-      .status(200)
-      .json({ message: "Category successfully fetched✅", category });
+      .status(result.code)
+      .json({ message: result.message, post: result.category || undefined });
   } catch (err) {
     next(err);
   }
 };
 
-exports.updateCategory = async (req, res, next) => {
+const updateCategory = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
-    const validBody = validCategory(req.body);
+    const input: categoryType = req.body;
+    const categoryId = req.params.id;
+    const validBody = validCategory(input);
 
     if (validBody !== true) {
-      return res.status(400).json({ message: "Invalid category data.❌" });
+      return res.status(400).json(validBody);
     }
-    let updates = {};
+    let updates: any = {};
     if (req.body.title) updates.title = req.body.title;
     if (req.body.slug) updates.slug = req.body.slug;
 
-    const existingCategory = await modeleCategory
-      .findOne({
-        title: updates.title,
-        slug: updates.slug,
-      })
-      .lean();
+    const result = await updateCategoryServices(input, categoryId, updates);
 
-    if (existingCategory) {
-      return res
-        .status(409)
-        .json({ message: "Category has already been updated.❌" });
-    }
-    const categories = await modeleCategory.findByIdAndUpdate(
-      req.params.id,
-      updates,
-      { new: true }
-    );
-
-    if (!categories) {
-      return res.status(404).json({ message: "Category not found.❌" });
-    }
-
+    const { categories } = result;
     return res
-      .status(200)
-      .json({ message: "Update completed successfully✅", categories });
+      .status(result.code)
+      .json({ message: result.message, post: result.categories || undefined });
   } catch (err) {
     next(err);
   }
 };
 
-exports.deleteCategory = async (req, res, next) => {
+const deleteCategory = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
-    const categories = await modeleCategory.findByIdAndDelete(req.params.id);
+    const categoryIdParam = req.params.id;
+    let categoryParamStr: string;
 
-    if (!categories) {
-      return res.status(404).json({ message: "Category not found.❌" });
+    if (Array.isArray(categoryIdParam)) {
+      categoryParamStr = categoryIdParam[0];
+    } else {
+      categoryParamStr = categoryIdParam;
     }
+    const id: string = categoryParamStr;
+    const result = await deleteCategoryServices(id);
 
+    const { categories } = result;
     return res
-      .status(200)
-      .json({ message: "Delete completed successfully✅", categories });
+      .status(result.code)
+      .json({ message: result.message, category: categories || undefined });
   } catch (err) {
     next(err);
   }
+};
+
+export default {
+  createCategory,
+  getAllCategory,
+  getCategory,
+  updateCategory,
+  deleteCategory,
 };

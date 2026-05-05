@@ -1,17 +1,27 @@
-const productModel = require("../../Models/Models_Products");
-const categoryModel = require("../../Models/Models_Category");
-const validProduct = require("../../Validators/Valid_Products");
-const { isValidObjectId } = require("mongoose");
-const { v4: uuidv4 } = require("uuid");
+import { Request, Response, NextFunction } from "express";
+import validProduct from "../../Validators/Valid_Products";
+import { ProductQuery, productType } from "../../Types/product";
+import {
+  productCreationService,
+  allProductService,
+  getCategoryIdByName,
+  getProductService,
+  updateProductService,
+  deleteProductService,
+  searchProductsService,
+} from "../../services/product.services";
 
-exports.productCreation = async (req, res, next) => {
+const productCreation = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const validproduct = validProduct(req.body);
-    const sku = `GOLD-${uuidv4()}`;
     const imageURL = req.file
       ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(
           /\\/g,
-          "/"
+          "/",
         )}`
       : null;
 
@@ -20,26 +30,21 @@ exports.productCreation = async (req, res, next) => {
         .status(422)
         .json({ message: "The data sent is not valid.❌", validproduct });
     }
-    const { title, description, price, weight, category } = req.body;
-    const products = await productModel.create({
+    const { title, description, price, weight, category }: productType =
+      req.body;
+    const result = await productCreationService(
       title,
       description,
       price,
       weight,
       category,
-      sku,
-      image: imageURL,
+      imageURL,
+    );
+    return res.status(result.code).json({
+      message: result.code,
+      products: result.toObjectProduct,
     });
-
-    const toObjectProduct = products.toObject();
-    Reflect.deleteProperty(toObjectProduct, "__v");
-    Reflect.deleteProperty(toObjectProduct, "updatedAt");
-
-    return res.status(201).json({
-      message: "Create Products successfully✅",
-      products: toObjectProduct,
-    });
-  } catch (err) {
+  } catch (err: any) {
     if (err.code === 11000) {
       return res
         .status(400)
@@ -49,9 +54,9 @@ exports.productCreation = async (req, res, next) => {
   }
 };
 
-exports.allProduct = async (req, res, next) => {
+const allProduct = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const query = {};
+    const query: ProductQuery = {};
 
     if (req.query.minPrice && req.query.maxPrice) {
       query.price = {
@@ -60,15 +65,10 @@ exports.allProduct = async (req, res, next) => {
       };
     }
 
-    const categoryName = req.query.category;
-    const category = await categoryModel.findOne({
-      $or: {
-        title: categoryName,
-        description: categoryModel,
-      },
-    });
-    if (category) {
-      query.category = category._id;
+    const categoryName = req.query.category as string;
+    const categoryId = await getCategoryIdByName(categoryName);
+    if (categoryId) {
+      (query as any).category = categoryId;
     }
     if (req.query.inStock) {
       query.inStock = req.query.inStock === "true";
@@ -78,126 +78,88 @@ exports.allProduct = async (req, res, next) => {
     const limit = Number(req.query.limit) || 10;
     const skip = (page - 1) * limit;
 
-    const product = await productModel
-      .find(query, "-__v -updatedAt")
-      .skip(skip)
-      .limit(limit)
-      .populate("category", "title slug")
-      .lean();
-
-    if (product.length == 0) {
-      return res
-        .status(200)
-        .json({ message: "No products found.❌", products: [] });
-    }
+    const result = await allProductService(query, skip, limit);
     return res
-      .status(200)
-      .json({ message: "All Product Succssfully✅", products: product });
+      .status(result.code)
+      .json({ message: result.message, products: result.product });
   } catch (err) {
     next(err);
   }
 };
 
-exports.getProduct = async (req, res, next) => {
+const getProduct = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const product = await productModel
-      .findOne({ _id: req.params.id }, "-__v -updatedAt")
-      .populate("Comments category", "title slug")
-      .lean();
-
-    if (!product) {
-      return res.status(404).json({ message: "Product not found.❌" });
-    }
+    const produltId = req.params.id as string;
+    const result = await getProductService(produltId);
     return res
-      .status(200)
-      .json({ message: "Received successfully✅", product });
+      .status(result.code)
+      .json({ message: result.message, product: result.product });
   } catch (err) {
     next(err);
   }
 };
 
-exports.updateProduct = async (req, res, next) => {
+const updateProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
-    const product = await productModel.findOne({ _id: req.params.id }, "-__v");
-
-    if (!product) {
-      return res.status(404).json({ message: "Product not found.❌" });
-    }
-
+    const productId = req.params.id as string;
+    const input = req.body;
     const imageURL = req.file
       ? `${req.protocol}://${req.get("host")}/${req.file.path.replace(
           /\\/g,
-          "/"
+          "/",
         )}`
       : null;
-    let isChanged = false;
-    const allowedParametr = [
-      "title",
-      "description",
-      "price",
-      "weight",
-      "category",
-      "image",
-    ];
-
-    for (let key of allowedParametr) {
-      if (key === "image" && imageURL) {
-        product.image = imageURL;
-        isChanged = true;
-      } else if (
-        req.body?.[key] != undefined &&
-        req.body[key] != product[key]
-      ) {
-        product[key] = req.body[key];
-        isChanged = true;
-      }
-    }
-    if (!isChanged) {
-      return res.status(400).json({ message: "No changes detected ❌" });
-    }
-
-    await product.save();
-
-    return res.status(200).json({
-      message: "The desired fields were successfully updated✅",
-      products: product,
+    const result = await updateProductService(productId, input, imageURL);
+    return res.status(result.code).json({
+      message: result.code,
+      products: result.product,
     });
   } catch (err) {
     next(err);
   }
 };
 
-exports.deleteProduct = async (req, res, next) => {
+const deleteProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
-    const product = await productModel.findOneAndDelete({ _id: req.params.id });
-
-    if (!product) {
-      return res.status(404).json({ message: "Product not found.❌" });
-    }
-
+    const productId = req.params.id as string;
+    const result = await deleteProductService(productId);
     return res
-      .status(200)
-      .json({ message: "Removed successfully✅", products: product });
+      .status(result.code)
+      .json({ message: result.message, products: result.product });
   } catch (err) {
     next(err);
   }
 };
 
-exports.searchProducts = async (req, res, next) => {
+const searchProducts = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
-    const { title } = req.query;
-    const product = await productModel
-      .find({
-        title: { $regex: title || "", $options: "i" },
-      })
-      .select("-__v -updatedAt -createdAt");
-
-    if (!product.length) {
-      return res.status(404).json({ message: "Product not found.❌" });
-    }
-
-    return res.status(200).json({ message: "Search is successful✅", product });
+    const { title }: ProductQuery = req.query;
+    const result = await searchProductsService(title);
+    return res
+      .status(result.code)
+      .json({ message: result.message, product: result.product });
   } catch (err) {
     next(err);
   }
+};
+
+export default {
+  productCreation,
+  allProduct,
+  getProduct,
+  updateProduct,
+  deleteProduct,
+  searchProducts,
 };

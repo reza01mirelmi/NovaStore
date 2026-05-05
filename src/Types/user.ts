@@ -1,9 +1,12 @@
-import { Document, Types } from "mongoose";
-
-export interface userModels extends Document{
-    name
-email
-phone
-password
-role
+export interface UsersDTO {
+  _id?: string;
+  name: string;
+  email: string;
+  phone: string;
+  password: string;
+  role: RoleType;
+  createdAt?: Date;
+  updatedAt?: Date;
+  passwordChangedAt?: Date;
 }
+export type RoleType = "ADMIN" | "USER";

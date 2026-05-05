@@ -1,12 +1,20 @@
-const paymentModel = require("../../Models/Models_Payment");
-const orderModel = require("../../Models/Models_Orders");
-const userModel = require("../../Models/Models_Users");
-const validPayment = require("../../Validators/Valid_Payment");
-const validStatus = require("../../Validators/Valid_PaymentStatus");
-const { v4: uuidv4 } = require("uuid");
+import { Request, Response, NextFunction } from "express";
+import validPayment from "../../Validators/Valid_Payment";
+import validStatus from "../../Validators/Valid_PaymentStatus";
+import {
+  createPaymentService,
+  deletePaymentService,
+  getPaymentsService,
+  updatePaymentService,
+} from "../../services/payments.services";
 
-exports.createPayment = async (req, res, next) => {
+const createPayment = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
+    const userId = req.user._id;
     const allowedMethods = [
       "credit_card",
       "paypal",
@@ -15,7 +23,6 @@ exports.createPayment = async (req, res, next) => {
       "cash",
     ];
     const validBody = validPayment(req.body);
-    const paymentID = `GOLDPAY-${uuidv4()}`;
 
     if (validBody !== true) {
       return res
@@ -30,70 +37,38 @@ exports.createPayment = async (req, res, next) => {
         .status(400)
         .json({ message: "Payment method is not valid.❌" });
     }
+    const result = await createPaymentService(orderId, method, userId);
 
-    const user = await userModel.findOne({ _id: req.user._id }).lean();
-    const orders = await orderModel.findOne({ _id: orderId }).lean();
+    return res
+      .status(result.code)
+      .json({ message: result.message, payment: result.payments });
+  } catch (err) {
+    next(err);
+  }
+};
 
-    if (!orders) {
-      return res.status(404).json({ message: "Order not found.❌" });
-    }
+const getPayments = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.user._id;
 
-    if (!orders.userId.equals(user._id)) {
-      return res
-        .status(403)
-        .json({ message: "You are not allowed to access this order.❌" });
-    }
+    const result = await getPaymentsService(userId);
 
-    const existingPayment = await paymentModel.findOne({ orderId });
-    if (existingPayment) {
-      return res
-        .status(400)
-        .json({ message: "Payment for this order already exists ❌" });
-    }
-    const payments = await paymentModel.create({
-      orderId,
-      userId: user._id,
-      amount: orders.totalPrice,
-      method,
-      paymentId: paymentID,
+    return res.status(result.code).json({
+      message: result.message,
+      payments: result.payments || undefined,
     });
-
-    return res
-      .status(201)
-      .json({ message: "Payment created successfully✅", payments });
   } catch (err) {
     next(err);
   }
 };
 
-exports.getPayments = async (req, res, next) => {
+const updatePayment = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
-    const user = await userModel.findOne({ _id: req.user._id }).lean();
-    let filter = {};
-
-    if (user.role == "USER") filter = { userId: user._id };
-
-    payments = await paymentModel
-      .find(filter, "-__v")
-      .populate("orderId userId", "totalPrice status name email")
-      .lean();
-
-    if (payments.length == 0) {
-      return res
-        .status(200)
-        .json({ message: "No payment found.❌", payments: [] });
-    }
-
-    return res
-      .status(200)
-      .json({ message: "Payment found successfully✅", payments });
-  } catch (err) {
-    next(err);
-  }
-};
-
-exports.updatePayment = async (req, res, next) => {
-  try {
+    const paymentId = req.params.id as string;
     const validBody = validStatus(req.body);
     if (validBody !== true) {
       return res
@@ -101,37 +76,37 @@ exports.updatePayment = async (req, res, next) => {
         .json({ message: "The data sent is not valid.❌", validBody });
     }
     const { status } = req.body;
-    const payment = await paymentModel.findOne({ _id: req.params.id }).lean();
-
-    if (!payment) {
-      return res.status(404).json({ message: "Payment not found.❌" });
-    }
-    const statusPayment = await paymentModel.findByIdAndUpdate(
-      { _id: req.params.id },
-      { $set: { status } },
-      { new: true }
-    );
+    const result = await updatePaymentService(paymentId, status);
 
     return res
-      .status(200)
-      .json({ message: "status updated successfully✅", statusPayment });
+      .status(result.code)
+      .json({ message: result.message, payment: result.statusPayment });
   } catch (err) {
     next(err);
   }
 };
 
-exports.deletePayment = async (req, res, next) => {
+const deletePayment = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
-    const payment = await paymentModel.findOneAndDelete({
-      _id: req.params.id,
-    });
+    const paymentId = req.params.id as string;
 
-    if (!payment) {
-      return res.status(404).json({ message: "Payment not found❌" });
-    }
+    const result = await deletePaymentService(paymentId);
 
-    return res.status(200).json({ message: "Payment deleted✅", payment });
+    return res
+      .status(result.code)
+      .json({ message: result.message, payment: result.payment });
   } catch (err) {
     next(err);
   }
+};
+
+export default {
+  createPayment,
+  getPayments,
+  updatePayment,
+  deletePayment,
 };

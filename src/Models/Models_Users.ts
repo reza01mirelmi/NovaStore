@@ -1,7 +1,8 @@
-import { Schema, model } from "mongoose";
-import { userModels } from "../Types/user";
+import { Schema, model, Document, Types } from "mongoose";
+import { UsersDTO } from "../Types/user";
+export type UserDocument = UsersDTO & Document & { _id: Types.ObjectId };
 
-const UserSchema = new Schema<userModels>(
+const userSchema = new Schema<UsersDTO>(
   {
     name: {
       type: String,
@@ -28,14 +29,16 @@ const UserSchema = new Schema<userModels>(
       default: "USER",
     },
   },
-  { timestamps: true },
+  { timestamps: true, collection: "User" },
 );
 
-UserSchema.virtual("orders", {
+userSchema.virtual("orders", {
   ref: "Order",
   localField: "_id",
   foreignField: "userId",
 });
 
-const Users = model("User", UserSchema, "User");
-export default Users;
+userSchema.set("toJSON", { virtuals: true });
+userSchema.set("toObject", { virtuals: true });
+
+export default model("User", userSchema);

@@ -1,7 +1,7 @@
 import { Schema, model, Types } from "mongoose";
-import { commentModels } from "../Types/comment";
+import { commentType } from "../Types/comment";
 
-const CommentSchema = new Schema<commentModels>(
+const CommentSchema = new Schema<commentType>(
   {
     productId: {
       type: Schema.Types.ObjectId,
@@ -18,7 +18,7 @@ const CommentSchema = new Schema<commentModels>(
       unique: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export default model<commentModels>("Comment", CommentSchema);
+export default model("Comment", CommentSchema);
